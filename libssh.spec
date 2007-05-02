@@ -3,15 +3,15 @@
 %define lib_name        %{lib_name_orig}%{lib_major}
 
 Name:           libssh
-Version:        0.2
-Release:        %mkrel 0.20060921.2
+Version:        0.20
+Release:        %mkrel 1
 Epoch:          0
 Summary:        C library to authenticate in a simple manner to one or more SSH servers
 Group:          System/Libraries
 License:        GPL
 URL:            http://0xbadc0de.be/wiki/doku.php?id=libssh:soc
-# svn checkout svn://svn.berlios.de/libssh/trunk
-Source0:        http://0xbadc0de.be/libssh/libssh.tar.bz2
+# svn checkout svn://svn.berlios.de/libssh/trunk libssh
+Source0:        http://0xbadc0de.be/libssh/libssh-119.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires:  openssl-devel
 
@@ -80,7 +80,7 @@ This package contains the static development files for %{name}.
 
 %prep
 %setup -q -n %{name}
-%{_bindir}/autoreconf -i --force
+%{_bindir}/autoreconf -i -v --force
 
 %build
 %{configure2_5x}
