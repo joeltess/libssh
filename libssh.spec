@@ -12,7 +12,6 @@ License:        GPL
 URL:            http://0xbadc0de.be/wiki/doku.php?id=libssh:soc
 # svn checkout svn://svn.berlios.de/libssh/trunk libssh
 Source0:        http://0xbadc0de.be/libssh/libssh-119.tar.bz2
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires:  openssl-devel
 
 %description
