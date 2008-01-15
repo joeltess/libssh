@@ -1,18 +1,19 @@
-%define lib_major       0
+%define lib_major       2
 %define lib_name_orig   %mklibname libssh
 %define lib_name        %{lib_name_orig}%{lib_major}
 
 Name:           libssh
 Version:        0.20
-Release:        %mkrel 1
+Release:        %mkrel 2
 Epoch:          0
 Summary:        C library to authenticate in a simple manner to one or more SSH servers
 Group:          System/Libraries
 License:        GPL
 URL:            http://0xbadc0de.be/wiki/doku.php?id=libssh:soc
 # svn checkout svn://svn.berlios.de/libssh/trunk libssh
-Source0:        http://0xbadc0de.be/libssh/libssh-119.tar.bz2
+Source0:        http://0xbadc0de.be/libssh/libssh-132.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root
+BuildRequires:  doxygen
 BuildRequires:  openssl-devel
 
 %description
@@ -64,6 +65,7 @@ Group:          System/Libraries
 Requires:       %{lib_name} = %{epoch}:%{version}-%{release}
 Provides:       %{lib_name_orig}-devel = %{epoch}:%{version}-%{release}
 Provides:       %{name}-devel = %{epoch}:%{version}-%{release}
+Provides:       ssh-devel = %{epoch}:%{version}-%{release}
 
 %description -n %{lib_name}-devel
 This package contains the development files for %{name}.
@@ -74,6 +76,7 @@ Group:          System/Libraries
 Requires:       %{lib_name} = %{epoch}:%{version}-%{release}
 Provides:       %{lib_name_orig}-static-devel = %{epoch}:%{version}-%{release}
 Provides:       %{name}-static-devel = %{epoch}:%{version}-%{release}
+Provides:       ssh-static-devel = %{epoch}:%{version}-%{release}
 
 %description -n %{lib_name}-static-devel
 This package contains the static development files for %{name}.
@@ -84,13 +87,16 @@ This package contains the static development files for %{name}.
 
 %build
 %{configure2_5x}
-%{__make}
+%{make}
+%{_bindir}/doxygen
 
 %install
 %{__rm} -rf %{buildroot}
-%{makeinstall}
-%{__install} -m 644 include/libssh/priv.h %{buildroot}%{_includedir}/%{name}/priv.h
+%{makeinstall_std}
 %{__perl} -pi -e 's|/usr/lib|%{_libdir}|' %{buildroot}%{_libdir}/*.la
+
+%check
+%{make} check
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -101,19 +107,17 @@ This package contains the static development files for %{name}.
 
 %files -n %{lib_name}
 %defattr(0644,root,root,0755)
-%doc AUTHORS CHANGELOG COPYING README
+%doc AUTHORS ChangeLog COPYING INSTALL NEWS README
 %defattr(-,root,root,-)
 %{_libdir}/*.so.*
 
 %files -n %{lib_name}-devel
 %defattr(0644,root,root,0755)
 %{_includedir}/%{name}
-%defattr(-,root,root,-)
+%defattr(-,root,root,0755)
 %{_libdir}/*.la
 %{_libdir}/*.so
 
 %files -n %{lib_name}-static-devel
-%defattr(-,root,root,-)
+%defattr(-,root,root,0755)
 %{_libdir}/*.a
-
-
