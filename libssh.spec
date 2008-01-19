@@ -1,10 +1,17 @@
 %define lib_major       2
 %define lib_name_orig   %mklibname ssh
-%define lib_name        %{lib_name_orig}%{lib_major}
+%define lib_name        %mklibname ssh %{lib_major}
+%define dev_name	%mklibname ssh -d
+%define sta_name	%mklibname ssh -d -s
+
+# (Anssi 01/2008)
+# Exercise caution when changing package names and provides here.
+# There is another more used ssh library called libssh2, we do not
+# want to clash with it.
 
 Name:           libssh
 Version:        0.20
-Release:        %mkrel 3
+Release:        %mkrel 4
 Epoch:          0
 Summary:        C library to authenticate in a simple manner to one or more SSH servers
 Group:          System/Libraries
@@ -47,7 +54,6 @@ remote files easily, without third-party programs others than libcrypto
 %package -n %{lib_name}
 Summary:        Main library for %{name}
 Group:          System/Libraries
-Provides:       %{lib_name_orig} = %{epoch}:%{version}-%{release}
 Provides:       %{name} = %{epoch}:%{version}-%{release}
 
 %description -n %{lib_name}
@@ -59,26 +65,24 @@ remote programs. With its Secure FTP implementation, you can play with
 remote files easily, without third-party programs others than libcrypto
 (from openssl).
 
-%package -n %{lib_name}-devel
+%package -n %{dev_name}
 Summary:        Development files for %{name}
 Group:          System/Libraries
 Requires:       %{lib_name} = %{epoch}:%{version}-%{release}
-Provides:       %{lib_name_orig}-devel = %{epoch}:%{version}-%{release}
-Provides:       %{name}-devel = %{epoch}:%{version}-%{release}
 Provides:       ssh-devel = %{epoch}:%{version}-%{release}
+Provides:       libssh-devel = %{epoch}:%{version}-%{release}
 
-%description -n %{lib_name}-devel
+%description -n %{dev_name}
 This package contains the development files for %{name}.
 
-%package -n %{lib_name}-static-devel
+%package -n %{sta_name}
 Summary:        Development files for %{name}
 Group:          System/Libraries
 Requires:       %{lib_name} = %{epoch}:%{version}-%{release}
-Provides:       %{lib_name_orig}-static-devel = %{epoch}:%{version}-%{release}
-Provides:       %{name}-static-devel = %{epoch}:%{version}-%{release}
+Provides:       libssh-static-devel = %{epoch}:%{version}-%{release}
 Provides:       ssh-static-devel = %{epoch}:%{version}-%{release}
 
-%description -n %{lib_name}-static-devel
+%description -n %{sta_name}
 This package contains the static development files for %{name}.
 
 %prep
@@ -109,15 +113,15 @@ This package contains the static development files for %{name}.
 %defattr(0644,root,root,0755)
 %doc AUTHORS ChangeLog COPYING INSTALL NEWS README
 %defattr(-,root,root,-)
-%{_libdir}/*.so.*
+%{_libdir}/*.so.%{lib_major}*
 
-%files -n %{lib_name}-devel
+%files -n %{dev_name}
 %defattr(0644,root,root,0755)
 %{_includedir}/%{name}
 %defattr(-,root,root,0755)
 %{_libdir}/*.la
 %{_libdir}/*.so
 
-%files -n %{lib_name}-static-devel
+%files -n %{sta_name}
 %defattr(-,root,root,0755)
 %{_libdir}/*.a
