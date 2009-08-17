@@ -1,4 +1,4 @@
-%define lib_major       2
+%define lib_major       3
 %define lib_name_orig   %mklibname ssh
 %define lib_name        %mklibname ssh %{lib_major}
 %define dev_name	%mklibname ssh -d
@@ -9,19 +9,21 @@
 # There is another more used ssh library called libssh2, we do not
 # want to clash with it.
 
-Name:           libssh
-Version:        0.20
-Release:        %mkrel 6
-Epoch:          0
-Summary:        C library to authenticate in a simple manner to one or more SSH servers
-Group:          System/Libraries
-License:        GPL
-URL:            http://0xbadc0de.be/wiki/doku.php?id=libssh:soc
+Name: libssh
+Version: 0.30
+Release: %mkrel 1
+Epoch: 0
+Summary: C library to authenticate in a simple manner to one or more SSH servers
+Group: System/Libraries
+License: GPL
+URL: http://0xbadc0de.be/wiki/doku.php?id=libssh:soc
 # svn checkout svn://svn.berlios.de/libssh/trunk libssh
-Source0:        http://0xbadc0de.be/libssh/libssh-132.tar.bz2
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root
-BuildRequires:  doxygen
-BuildRequires:  openssl-devel
+Source0: http://0xbadc0de.be/libssh/libssh-781.tar.bz2
+Patch0: libssh-781-wchar-literal.patch
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
+BuildRequires: doxygen
+BuildRequires: openssl-devel
+BuildRequires: cmake
 
 %description
 The ssh library was designed to be used by programmers needing a working 
@@ -51,6 +53,7 @@ remote files easily, without third-party programs others than libcrypto
     * A developer listening to you
     * It's free (LGPL)!
 
+
 %package -n %{lib_name}
 Summary:        Main library for %{name}
 Group:          System/Libraries
@@ -65,67 +68,43 @@ remote programs. With its Secure FTP implementation, you can play with
 remote files easily, without third-party programs others than libcrypto
 (from openssl).
 
+%files -n %{lib_name}
+%defattr(-,root,root,-)
+%{_libdir}/*.so.%{lib_major}*
+
+#-----------------------------------------------------------
+
 %package -n %{dev_name}
-Summary:        Development files for %{name}
-Group:          System/Libraries
-Requires:       %{lib_name} = %{epoch}:%{version}-%{release}
-Provides:       ssh-devel = %{epoch}:%{version}-%{release}
-Provides:       libssh-devel = %{epoch}:%{version}-%{release}
+Summary: Development files for %{name}
+Group: System/Libraries
+Requires: %{lib_name} = %{epoch}:%{version}-%{release}
+Provides: ssh-devel = %{epoch}:%{version}-%{release}
+Provides: libssh-devel = %{epoch}:%{version}-%{release}
 
 %description -n %{dev_name}
 This package contains the development files for %{name}.
 
-%package -n %{sta_name}
-Summary:        Development files for %{name}
-Group:          System/Libraries
-Requires:       %{lib_name} = %{epoch}:%{version}-%{release}
-Provides:       libssh-static-devel = %{epoch}:%{version}-%{release}
-Provides:       ssh-static-devel = %{epoch}:%{version}-%{release}
+%files -n %{dev_name}
+%defattr(-,root,root,-)
+%doc AUTHORS ChangeLog COPYING INSTALL README
+%{_includedir}/%{name}
+%{_libdir}/*.so
 
-%description -n %{sta_name}
-This package contains the static development files for %{name}.
+#----------------------------------------------------------------
 
 %prep
 %setup -q -n %{name}
-%{_bindir}/autoreconf -i -v --force
+%patch0 -p0 
 
 %build
-%{configure2_5x}
-%{make}
-%{_bindir}/doxygen
+%cmake
+
+%make
 
 %install
-%{__rm} -rf %{buildroot}
-%{makeinstall_std}
-%{__perl} -pi -e 's|/usr/lib|%{_libdir}|' %{buildroot}%{_libdir}/*.la
-
-%check
-%{make} check
+%makeinstall_std -C build
 
 %clean
-%{__rm} -rf %{buildroot}
+rm -rf %buildroot
 
-%if %mdkversion < 200900
-%post -n %{lib_name} -p /sbin/ldconfig
-%endif
 
-%if %mdkversion < 200900
-%postun -n %{lib_name} -p /sbin/ldconfig
-%endif
-
-%files -n %{lib_name}
-%defattr(0644,root,root,0755)
-%doc AUTHORS ChangeLog COPYING INSTALL NEWS README
-%defattr(-,root,root,-)
-%{_libdir}/*.so.%{lib_major}*
-
-%files -n %{dev_name}
-%defattr(0644,root,root,0755)
-%{_includedir}/%{name}
-%defattr(-,root,root,0755)
-%{_libdir}/*.la
-%{_libdir}/*.so
-
-%files -n %{sta_name}
-%defattr(-,root,root,0755)
-%{_libdir}/*.a
