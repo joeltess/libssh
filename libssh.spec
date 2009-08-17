@@ -4,15 +4,10 @@
 %define dev_name	%mklibname ssh -d
 %define sta_name	%mklibname ssh -d -s
 
-# (Anssi 01/2008)
-# Exercise caution when changing package names and provides here.
-# There is another more used ssh library called libssh2, we do not
-# want to clash with it.
-
 Name: libssh
-Version: 0.30
+Version: 0.3.0
 Release: %mkrel 1
-Epoch: 0
+Epoch: 1
 Summary: C library to authenticate in a simple manner to one or more SSH servers
 Group: System/Libraries
 License: GPL
@@ -55,9 +50,8 @@ remote files easily, without third-party programs others than libcrypto
 
 
 %package -n %{lib_name}
-Summary:        Main library for %{name}
-Group:          System/Libraries
-Provides:       %{name} = %{epoch}:%{version}-%{release}
+Summary: Main library for %{name}
+Group: System/Libraries
 
 %description -n %{lib_name}
 The ssh library was designed to be used by programmers needing a working
