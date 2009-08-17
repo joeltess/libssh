@@ -19,6 +19,7 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires: doxygen
 BuildRequires: openssl-devel
 BuildRequires: cmake
+BuildRequires: zlib-devel
 
 %description
 The ssh library was designed to be used by programmers needing a working 
