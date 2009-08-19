@@ -5,7 +5,7 @@
 %define sta_name	%mklibname ssh -d -s
 
 Name: libssh
-Version: 0.3.0
+Version: 0.3.3
 Release: %mkrel 1
 Epoch: 1
 Summary: C library to authenticate in a simple manner to one or more SSH servers
