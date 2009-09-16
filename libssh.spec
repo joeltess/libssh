@@ -11,10 +11,9 @@ Epoch: 1
 Summary: C library to authenticate in a simple manner to one or more SSH servers
 Group: System/Libraries
 License: GPL
-URL: http://0xbadc0de.be/wiki/doku.php?id=libssh:soc
+URL: http://www.libssh.org
 # svn checkout svn://svn.berlios.de/libssh/trunk libssh
-Source0: http://0xbadc0de.be/libssh/libssh-781.tar.bz2
-Patch0: libssh-781-wchar-literal.patch
+Source0: http://www.libssh.org/files/%{name}-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires: doxygen
 BuildRequires: openssl-devel
@@ -88,8 +87,7 @@ This package contains the development files for %{name}.
 #----------------------------------------------------------------
 
 %prep
-%setup -q -n %{name}
-%patch0 -p0 
+%setup -q
 
 %build
 %cmake
