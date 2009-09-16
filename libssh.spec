@@ -6,7 +6,7 @@
 
 Name: libssh
 Version: 0.3.4
-Release: %mkrel 1
+Release: %mkrel 2
 Epoch: 1
 Summary: C library to authenticate in a simple manner to one or more SSH servers
 Group: System/Libraries
