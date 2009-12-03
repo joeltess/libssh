@@ -1,12 +1,12 @@
-%define lib_major       3
+%define lib_major       4
 %define lib_name_orig   %mklibname ssh
 %define lib_name        %mklibname ssh %{lib_major}
 %define dev_name	%mklibname ssh -d
 %define sta_name	%mklibname ssh -d -s
 
 Name: libssh
-Version: 0.3.4
-Release: %mkrel 2
+Version: 0.3.92
+Release: %mkrel 1
 Epoch: 1
 Summary: C library to authenticate in a simple manner to one or more SSH servers
 Group: System/Libraries
@@ -80,7 +80,6 @@ This package contains the development files for %{name}.
 
 %files -n %{dev_name}
 %defattr(-,root,root,-)
-%doc AUTHORS ChangeLog COPYING INSTALL README
 %{_includedir}/%{name}
 %{_libdir}/*.so
 
