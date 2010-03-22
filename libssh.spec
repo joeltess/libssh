@@ -5,12 +5,12 @@
 %define sta_name	%mklibname ssh -d -s
 
 Name: libssh
-Version: 0.4.1
+Version: 0.4.2
 Release: %mkrel 1
 Epoch: 1
 Summary: C library to authenticate in a simple manner to one or more SSH servers
 Group: System/Libraries
-License: GPL
+License: LGPLv2.1+
 URL: http://www.libssh.org
 # svn checkout svn://svn.berlios.de/libssh/trunk libssh
 Source0: http://www.libssh.org/files/%{name}-%{version}.tar.gz
