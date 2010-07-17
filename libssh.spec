@@ -4,21 +4,23 @@
 %define dev_name	%mklibname ssh -d
 %define sta_name	%mklibname ssh -d -s
 
-Name: libssh
-Version: 0.4.4
-Release: %mkrel 1
-Epoch: 1
-Summary: C library to authenticate in a simple manner to one or more SSH servers
-Group: System/Libraries
-License: LGPLv2.1+
-URL: http://www.libssh.org
+Summary:	C library to authenticate in a simple manner to one or more SSH servers
+Name:		libssh
+Version:	0.4.4
+Release:	%mkrel 2
+Epoch:		1
+Group:		System/Libraries
+License:	LGPLv2.1+
+URL:		http://www.libssh.org
 # svn checkout svn://svn.berlios.de/libssh/trunk libssh
-Source0: http://www.libssh.org/files/%{name}-%{version}.tar.gz
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root
-BuildRequires: doxygen
-BuildRequires: openssl-devel
-BuildRequires: cmake
-BuildRequires: zlib-devel
+Source0:	http://www.libssh.org/files/%{name}-%{version}.tar.gz
+BuildRequires:	doxygen
+BuildRequires:	openssl-devel
+BuildRequires:	cmake
+BuildRequires:	zlib-devel
+BuildRequires:	libgcrypt-devel
+BuildRequires:	libpcap-devel
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 
 %description
 The ssh library was designed to be used by programmers needing a working 
@@ -50,8 +52,8 @@ remote files easily, without third-party programs others than libcrypto
 
 
 %package -n %{lib_name}
-Summary: Main library for %{name}
-Group: System/Libraries
+Summary:	Main library for %{name}
+Group:		System/Libraries
 
 %description -n %{lib_name}
 The ssh library was designed to be used by programmers needing a working
@@ -69,11 +71,11 @@ remote files easily, without third-party programs others than libcrypto
 #-----------------------------------------------------------
 
 %package -n %{dev_name}
-Summary: Development files for %{name}
-Group: System/Libraries
-Requires: %{lib_name} = %{epoch}:%{version}-%{release}
-Provides: ssh-devel = %{epoch}:%{version}-%{release}
-Provides: libssh-devel = %{epoch}:%{version}-%{release}
+Summary:	Development files for %{name}
+Group:		System/Libraries
+Requires:	%{lib_name} = %{epoch}:%{version}-%{release}
+Provides:	ssh-devel = %{epoch}:%{version}-%{release}
+Provides:	libssh-devel = %{epoch}:%{version}-%{release}
 
 %description -n %{dev_name}
 This package contains the development files for %{name}.
@@ -89,14 +91,13 @@ This package contains the development files for %{name}.
 %setup -q
 
 %build
-%cmake
+%cmake -DWITH_GCRYPT=ON -DWITH_PCAP=ON
 
 %make
 
 %install
+rm -rf %{buildroot}
 %makeinstall_std -C build
 
 %clean
-rm -rf %buildroot
-
-
+rm -rf %{buildroot}
