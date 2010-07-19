@@ -2,12 +2,11 @@
 %define lib_name_orig   %mklibname ssh
 %define lib_name        %mklibname ssh %{lib_major}
 %define dev_name	%mklibname ssh -d
-%define sta_name	%mklibname ssh -d -s
 
 Summary:	C library to authenticate in a simple manner to one or more SSH servers
 Name:		libssh
-Version:	0.4.4
-Release:	%mkrel 2
+Version:	0.4.5
+Release:	%mkrel 1
 Epoch:		1
 Group:		System/Libraries
 License:	LGPLv2.1+
