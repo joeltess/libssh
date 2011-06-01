@@ -5,8 +5,8 @@
 
 Summary:	C library to authenticate in a simple manner to one or more SSH servers
 Name:		libssh
-Version:	0.4.7
-Release:	%mkrel 2
+Version:	0.5.0
+Release:	%mkrel 1
 Epoch:		1
 Group:		System/Libraries
 License:	LGPLv2.1+
@@ -83,6 +83,7 @@ This package contains the development files for %{name}.
 %defattr(-,root,root,-)
 %{_includedir}/%{name}
 %{_libdir}/*.so
+%{_libdir}/pkgconfig/*.pc
 
 #----------------------------------------------------------------
 
@@ -91,7 +92,6 @@ This package contains the development files for %{name}.
 
 %build
 %cmake -DWITH_GCRYPT=ON -DWITH_PCAP=ON
-
 %make
 
 %install
