@@ -5,21 +5,20 @@
 
 Summary:	C library to authenticate in a simple manner to one or more SSH servers
 Name:		libssh
-Version:	0.5.0
-Release:	%mkrel 4
+Version:	0.5.4
+Release:	1
 Epoch:		1
 Group:		System/Libraries
 License:	LGPLv2.1+
 URL:		http://www.libssh.org
 # svn checkout svn://svn.berlios.de/libssh/trunk libssh
-Source0:	http://www.libssh.org/files/%{name}-%{version}.tar.gz
+Source0:	https://red.libssh.org/attachments/download/41/libssh-%version.tar.gz
 BuildRequires:	doxygen
 BuildRequires:	openssl-devel
 BuildRequires:	cmake
 BuildRequires:	zlib-devel
 BuildRequires:	libgcrypt-devel
 BuildRequires:	libpcap-devel
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 
 %description
 The ssh library was designed to be used by programmers needing a working 

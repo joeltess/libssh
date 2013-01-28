@@ -1,2 +1,4 @@
+removed_sources:
+  libssh-0.5.0.tar.gz: ec72a2e23f97d412c465f8ba97d688679550ac18
 sources:
-  "libssh-0.5.0.tar.gz": ec72a2e23f97d412c465f8ba97d688679550ac18
+  libssh-0.5.4.tar.gz: 4a372378db8fffaf28d5c79d80b2235843aa587c
