@@ -1,18 +1,18 @@
-%define major	4
-%define libname	%mklibname ssh %{major}
+%define major 4
+%define libname %mklibname ssh %{major}
 %define libthreads %mklibname ssh_threads %{major}
-%define devname	%mklibname ssh -d
+%define devname %mklibname ssh -d
 
 Summary:	C library to authenticate in a simple manner to one or more SSH servers
 Name:		libssh
 Epoch:		1
-Version:	0.6.0
+Version:	0.6.3
 Release:	1
 Group:		System/Libraries
 License:	LGPLv2.1+
 Url:		http://www.libssh.org
 # svn checkout svn://svn.berlios.de/libssh/trunk libssh
-Source0:	https://red.libssh.org/attachments/download/41/%{name}-%{version}.tar.gz
+Source0:	https://red.libssh.org/attachments/download/41/%{name}-%{version}.tar.bz2
 BuildRequires:	cmake
 BuildRequires:	doxygen
 BuildRequires:	pcap-devel
@@ -48,6 +48,8 @@ remote files easily, without third-party programs others than libcrypto
     * A developer listening to you
     * It's free (LGPL)!
 
+#----------------------------------------------------------------------------
+
 %package -n %{libname}
 Summary:	Main library for %{name}
 Group:		System/Libraries
@@ -61,6 +63,11 @@ remote programs. With its Secure FTP implementation, you can play with
 remote files easily, without third-party programs others than libcrypto
 (from openssl).
 
+%files -n %{libname}
+%{_libdir}/libssh.so.%{major}*
+
+#----------------------------------------------------------------------------
+
 %package -n %{libthreads}
 Summary:	Main library for %{name}
 Group:		System/Libraries
@@ -68,6 +75,11 @@ Conflicts:	%{_lib}ssh4 < 0.5.4-2
 
 %description -n %{libthreads}
 This package contains a shared library for %{name}.
+
+%files -n %{libthreads}
+%{_libdir}/libssh_threads.so.%{major}*
+
+#----------------------------------------------------------------------------
 
 %package -n %{devname}
 Summary:	Development files for %{name}
@@ -80,6 +92,14 @@ Provides:	libssh-devel = %{EVRD}
 %description -n %{devname}
 This package contains the development files for %{name}.
 
+%files -n %{devname}
+%{_includedir}/%{name}
+%{_libdir}/*.so
+%{_libdir}/pkgconfig/*.pc
+%{_libdir}/cmake/*
+
+#----------------------------------------------------------------------------
+
 %prep
 %setup -q
 
@@ -90,14 +110,3 @@ This package contains the development files for %{name}.
 %install
 %makeinstall_std -C build
 
-%files -n %{libname}
-%{_libdir}/libssh.so.%{major}*
-
-%files -n %{libthreads}
-%{_libdir}/libssh_threads.so.%{major}*
-
-%files -n %{devname}
-%{_includedir}/%{name}
-%{_libdir}/*.so
-%{_libdir}/pkgconfig/*.pc
-%{_libdir}/cmake/*
