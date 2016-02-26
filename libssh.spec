@@ -7,12 +7,13 @@ Summary:	C library to authenticate in a simple manner to one or more SSH servers
 Name:		libssh
 Epoch:		1
 Version:	0.6.5
-Release:	1
+Release:	1.1
 Group:		System/Libraries
 License:	LGPLv2.1+
 Url:		http://www.libssh.org
 # svn checkout svn://svn.berlios.de/libssh/trunk libssh
-Source0:	https://red.libssh.org/attachments/download/41/%{name}-%{version}.tar.xz
+Source0:	https://red.libssh.org/attachments/download/121/%{name}-%{version}.tar.xz
+Patch1:		CVE-2016-0739.patch
 BuildRequires:	cmake
 BuildRequires:	doxygen
 BuildRequires:	pcap-devel
@@ -102,6 +103,7 @@ This package contains the development files for %{name}.
 
 %prep
 %setup -q
+%apply_patches
 
 %build
 %cmake -DWITH_GCRYPT=ON -DWITH_PCAP=ON
